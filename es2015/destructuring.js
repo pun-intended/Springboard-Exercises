@@ -77,7 +77,7 @@ console.log(numbers) // [10, 30, 20]
 
 // ES5 Assigning Variables to Object Properties
 
-
+/**
 var obj = {
   numbers: {
     a: 1,
@@ -87,11 +87,13 @@ var obj = {
 
 var a = obj.numbers.a;
 var b = obj.numbers.b;
+*/
 
 // ES2015 Object Destructuring
 
 /* Write an ES2015 Version */
-[obj[a], obj[b]] = [obj[b], obj[a]];
+
+let {a, b} = obj.numbers;
 
 // ES5 Array Swap
 
