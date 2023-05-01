@@ -1,6 +1,6 @@
 /**
  What does the following code return?
- new Set([1,1,2,2,3,4]) // [1, 2, 3, 4]
+ new Set([1,1,2,2,3,4]) // {1, 2, 3, 4}
 
  [...new Set("referee")].join("") // "ref"
  */
@@ -11,7 +11,10 @@ let m = new Map();
 m.set([1,2,3], true); 
 m.set([1,2,3], false);
 
-{[1, 2, 3]: false}
+{   
+    Array(3): true
+    Array(3): false
+}
  */
 
 /**
@@ -24,7 +27,7 @@ hasDuplicate([1,5,-1,4]) // false
 
 const hasDuplicate = (arr) => {
     let testSet = new Set(arr)
-    return arr.length === testSet.length;
+    return arr.length === testSet.size;
 }
 
 /**
@@ -44,7 +47,9 @@ const vowelCount = (str) => {
     const vowelMap = new Map()
     str.forEach(char => {
         if (isVowel(char)){
-            vowelMap.has(char) ? vowelMap.set({[char]: +1}): vowelMap.set({[char]: 1})
+            vowelMap.has(char) ? 
+                vowelMap.set(char, vowelMap.get(char)+1): 
+                vowelMap.set(char, 1)
         }
     });
     return vowelMap;
