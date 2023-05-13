@@ -7,15 +7,16 @@
 
 <div id="game">
   <table id="board"></table>
-  <button id="startBtn">Start</button>
 </div>
 
 <!-- add form to select color for p1 p2 -->
 <form>
-  <input>
-  <input type="color" id="p1Color">
-  <input type="color" id="p2Color">
+  <label for="p1Color">Player 1 Color</label>
+  <input type="color" name="p1Color" id="p1Color" value="#FEFF3D"></b>
+  <label for="p2Color">Player 2 Color</label>
+  <input type="color" name="p2Color" id="p2Color" value="#F2524D"></b>
 </form>
+<button id="startBtn">Start</button>
 
 <script src="connect4.js"></script>
 
