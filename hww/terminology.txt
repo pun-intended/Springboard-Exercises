@@ -1,0 +1,31 @@
+- What is HTTP?
+    A protocol for transmitting information that is used with HTML and the web
+- What is a URL?
+    A unique address where a website can be found
+- What is DNS?
+    Domain Name System - Maps site addresses to ip addresses
+- What is a query string?
+    A string that is passed along with a request that used as the value of a search
+- What are two HTTP verbs and how are they different?
+    POST and GET
+    GET sends a request that has no side-effects, meaning it won't change anything on the server side
+    POST sends a request with additional information that will change some value on the server side
+- What is an HTTP request?
+    the request sent by the browser to the server with information, including the headers
+- What is an HTTP response?
+    The response from the server with the body of the content, and associated headers
+- What is an HTTP header? Give a couple examples of 
+request and response headers you have seen.
+    information sent along with a request detailing what information is needed for the request.  Provides necessary details for the server to authenticate, as well.
+    header examples:
+        - content-type
+        - expires
+        - content-encoding
+        - server
+- What are the processes that happen when you type 
+"http://somesite.com/some/page.html” into a browser?
+    the browser looks up the ip address
+    the browser connects to the server
+    the browser sends a request to the server
+    the server sends back a response
+    the browser shows the content
