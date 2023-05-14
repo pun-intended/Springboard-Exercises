@@ -4,10 +4,14 @@ console.log("Let's get this party started!");
 
 const api_key = 'MhAodEJIJxQMxW9XqxKjyXfNYdLoOIym'
 const searchBtn = document.querySelector("#searchBtn");
+const removeBtn = document.querySelector("#removeBtn");
 const searchText = document.querySelector('#query');
-const imgHolder = document.querySelector('#result');
+const gallery = document.querySelector('#gifGallery');
 
-searchBtn.addEventListener('click', changeImage);
+searchBtn.addEventListener('click', addImage);
+removeBtn.addEventListener('click', () => {
+    gallery.innerHTML = "";
+})
 
 
 async function retrieveGif(q) {
@@ -18,15 +22,20 @@ async function retrieveGif(q) {
     return res;
 }
 
-async function changeImage(){
+async function addImage(){
     
     const searchQuery = searchText.value;
     const results = await retrieveGif(searchQuery);
     const num = Math.floor(Math.random()*results.data.data.length);
-    const newUrl = results.data.data[num].images.original.url
-    
-    imgHolder.setAttribute('src', newUrl)
+    const url = results.data.data[num].images.original.url
+    let img = createImg(url);
+    gallery.append(img);
+
 }
 
-
-retrieveGif('test')
+function createImg(url) {
+    let newImg = document.createElement("img");
+    newImg.classList.add('result');
+    newImg.setAttribute('src', url);
+    return newImg;
+}
