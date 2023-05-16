@@ -57,7 +57,7 @@
       </ol>
     </aside>
   </div>
-  <div class="row mb-5">
+  <div class="row-mb-5">
     <div class="col-sm-4">
       Red
       <input class="form-control" type="number" min="0" max="255" value="255">
@@ -77,7 +77,6 @@
 /**
 1. When the DOM is ready, console.log the message “Let’s get ready to 
 party with jQuery!”
-
 2. Give all images inside of an article tag the class of image-center
 (this class is defined inside of the style tag in the head).
 3. Remove the last paragraph in the article.
@@ -94,7 +93,6 @@ removed from the DOM.
 $(function(){
   console.log("Let's get ready to party with jQuery!")}
   );
-
 $("img").addClass("image-center");
 $("p").last().remove();
 $("#title").css("font-size", `${Math.floor(Math.random() * 100)}px`);
@@ -103,7 +101,16 @@ $("ol").append($newLi)
 $("aside")
   .empty()
   .append("<p> That was a silly list.  We didn't need it anyway")
-
+$(".row-mb-5").on("change", "input", function(evt) {
+  let colorsArray = []
+  $("input").each(function(){
+    colorsArray.push($(this).val())
+  })
+  $("body").css("background-color", `rgb(${colorsArray[0]}, ${colorsArray[2]}, ${colorsArray[1]})`)
+})
+$("img").on("click", function() {
+  $(this).remove()
+})
 
 </script>
 </body>
