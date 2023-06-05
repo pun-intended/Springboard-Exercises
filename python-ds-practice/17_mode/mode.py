@@ -11,3 +11,10 @@ def mode(nums):
         >>> mode([2, 2, 3, 3, 2])
         2
     """
+    num_set = set(nums)
+    count_dict = {num: nums.count(num) for num in num_set}
+    most = (0, 0)
+    for (num, val) in count_dict.items():
+        if val > most[1]:
+            most = (num, val)
+    return most[0]

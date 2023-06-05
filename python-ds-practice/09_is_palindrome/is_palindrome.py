@@ -21,3 +21,9 @@ def is_palindrome(phrase):
         >>> is_palindrome('Noon')
         True
     """
+    lst = list(phrase.replace(" ", "").lower())
+    new_str = "".join(lst)
+    flipped = lst.copy()
+    flipped.reverse()
+    back_str = "".join(flipped)
+    return new_str == back_str
