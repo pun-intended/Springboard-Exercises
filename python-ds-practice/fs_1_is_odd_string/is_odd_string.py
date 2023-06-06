@@ -28,4 +28,7 @@ def is_odd_string(word):
         True
     """
 
-    # Hint: you may find the ord() function useful here
+    total = 0
+    for char in word:
+        total += ord(char)
+    return total % 2 == 1

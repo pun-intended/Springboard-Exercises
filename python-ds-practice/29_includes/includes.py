@@ -31,7 +31,10 @@ def includes(collection, sought, start=None):
         True
     """
     #TODO - Test if possible to remove if clause
+    if isinstance(collection, dict):
+        return sought in collection.values()
+    if isinstance(collection, set):
+        return sought in collection
     if start:
         new_collection = collection[start:]
         return sought in new_collection
-    return sought in collection

@@ -9,6 +9,6 @@ def vowel_count(phrase):
     """
     vowels = "aeiou"
     vowel_set = {vow for vow in phrase.lower() if vow in vowels}
-    vowel_dict = {vow: phrase.count(vow) for vow in vowel_set}
+    vowel_dict = {vow: phrase.lower().count(vow) for vow in vowel_set}
     return vowel_dict
 #TODO - Test

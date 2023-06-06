@@ -15,3 +15,11 @@ def two_list_dictionary(keys, values):
         >>> two_list_dictionary(['a', 'b', 'c'], [1, 2, 3, 4])
         {'a': 1, 'b': 2, 'c': 3}
    """
+
+    two_list_dict = {}
+    for i in range(len(keys)):
+        try:
+            two_list_dict[keys[i]] = values[i]
+        except IndexError:
+            two_list_dict[keys[i]] = None
+    return two_list_dict
