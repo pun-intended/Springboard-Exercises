@@ -24,3 +24,4 @@ def truncate(phrase, n):
         >>> truncate("Woah", 3)
         '...'
     """
+    

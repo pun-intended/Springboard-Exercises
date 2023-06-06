@@ -30,3 +30,8 @@ def includes(collection, sought, start=None):
         >>> includes({"apple": "red", "berry": "blue"}, "blue")
         True
     """
+    #TODO - Test if possible to remove if clause
+    if start:
+        new_collection = collection[start:]
+        return sought in new_collection
+    return sought in collection
