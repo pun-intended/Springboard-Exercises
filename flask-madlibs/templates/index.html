@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block body %}
+<form action="/story">
+{% for item in prompts_list %}
+<label for="{{item}}">{{item}}: </label>
+<input type="text" name="{{item}}" placeholder="{{item}}"><br>
+{% endfor %}
+<button>submit</button>
+</form>
+{% endblock %}
