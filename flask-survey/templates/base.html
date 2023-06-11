@@ -7,6 +7,20 @@
     <title>Document</title>
 </head>
 <body>
-    
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <section>
+        <ul name="messages">
+            {% for msg in messages %}
+            <li>{{msg}}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+    {% endwith %}
+
+    {% block body %}
+
+    {% endblock %}
 </body>
 </html>
