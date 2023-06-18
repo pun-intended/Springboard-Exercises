@@ -1,0 +1,46 @@
+.letterBlock{
+    background-color: aliceblue;
+    font-size: 3vw;
+    vertical-align: middle;
+    border: solid black .2vw;
+    text-align: center;
+    vertical-align: middle;
+    width: 10vw;
+    margin: .5vw;
+    float: left;
+    aspect-ratio: 1/1;
+}
+
+.gameboard{
+    position:relative;
+    background-color: dodgerblue;
+    border: solid black .3vw;
+    width: 100%;
+    
+}
+
+#gameSpace{
+    width:60vw;
+    margin: 1vw;
+}
+
+#guessForm{
+    position: relative;
+    float: left;
+}
+
+#scoreBoard{
+    height: 15vw;
+    width: 15vw;
+    border: 3px solid black;
+    position: relative;
+    float: right;
+}
+
+#timer{
+    height: 15vw;
+    width: 15vw;
+    border: 3px solid black;
+    position: relative;
+    float: right;
+}

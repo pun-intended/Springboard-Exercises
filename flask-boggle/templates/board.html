@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div id="gameSpace">
+    <table class="gameboard">
+    {% for row in board %}
+    <tr>
+    {% for cell in row %}
+        <td class="letterBlock" name="{{cell}}">{{cell}}</td>
+    {% endfor %}
+    </tr>
+{% endfor %}
+</table>
+
+<div id="scoreBoard">
+    <div id="scoreTitle">Player Score</div>
+    <div id="playerScore">0</div>
+</div>
+<div id="timer">
+    <h3>Time Remaining</h3>
+    <h1 id="time">0:60</h1>
+</div>
+<form id="guessForm">
+    <input id="guessInput" name="guess" type="text" placeholder="guess">
+    <button type="submit" id="submitButton">Check</button>
+</form>
+
+<form id="finish" action="/finish">
+    <button>FINISH</button>
+</form>
+
+</div>
+
+
+{% endblock %}
