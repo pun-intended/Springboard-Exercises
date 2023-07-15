@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
-{% block title %} title {% endblock %}
+{% block title %} Create a User {% endblock %}
 
 {% block content %}
-content
+<h1>Create a User</h1>
+
+<form name="signup" action="/users/new" method="post">
+    <label for="firstName">First Name</label><br>
+    <input type="text" name="firstName"><br>
+    <label for="lastName">Last Name</label><br>
+    <input type="text" name="lastName"><br>
+    <label for="imgUrl">Last Name</label><br>
+    <input type="text" name="imgUrl"><br>
+    <button type="submit">Add</button>
+</form>
 {% endblock %}
