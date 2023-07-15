@@ -1,7 +1,7 @@
 from boggle import Boggle
 
 from flask import Flask, redirect, render_template, session, request, jsonify
-import boggle
+
 
 game = Boggle()
 app = Flask(__name__)
