@@ -15,9 +15,11 @@ f0 = User(first_name="Charlotte", last_name="Panache", img_url="/static/f0.jpeg"
 f1 = User(first_name="Becky", last_name="Hangar", img_url="/static/f1.jpeg")
 f2 = User(first_name="Sasha", last_name="Monet", img_url="/static/f2.jpeg")
 
-# Add to session
+# Add to session and commit users
 user_list = [m0, m1, m2, m3, f0, f1, f2]
 db.session.add_all(user_list)
-
-# Commit
 db.session.commit()
+
+# create seed posts for users
+
+# Add posts to sessions and commit

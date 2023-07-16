@@ -4,14 +4,14 @@
 {% block content %}
 <h1>Edit a User</h1>
 
-<form name="editUser" action="/users/{{user.id}}/edit" method="post">
+<form name="editUser" action="/users/{{user.user_id}}/edit" method="post">
     <label for="firstName">First Name</label><br>
     <input type="text" name="firstName" value="{{user.first_name}}"><br>
     <label for="lastName">Last Name</label><br>
     <input type="text" name="lastName" value="{{user.last_name}}"><br>
     <label for="imgUrl">Last Name</label><br>
     <input type="text" name="imgUrl" value="{{user.img_url}}"><br>
-    <button type="submit" formaction="/users/{{user.id}}" formmethod="get">Cancel</button>
+    <button type="submit" formaction="/users/{{user.user_id}}" formmethod="get">Cancel</button>
     <button type="submit">Save</button>
 </form>
 {% endblock %}

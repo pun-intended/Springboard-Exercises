@@ -2,10 +2,20 @@
 {% block title %} {{user.first_name}} {{user.last_name}} {% endblock %}
 
 {% block content %}
-<img src="{{user.img_url}}" alt="user image">
+<img src="{{user.img_url}}" style="max-width: 200px;" alt="user image">
 <h1>{{user.first_name}} {{user.last_name}}</h1>
 <form>
-<button type="submit" formaction="/users/{{user.id}}/edit">Edit</button>
-<button type="submit" formaction="/users/{{user.id}}/delete" formmethod="post">Delete</button>
-</form>
+    <button type="submit" formaction="/users/{{user.user_id}}/edit">Edit</button>
+    <button type="submit" formaction="/users/{{user.user_id}}/delete" formmethod="post">Delete</button>
+    </form>
+<h3>Posts</h3>
+<ul>
+    {% for post in user.posts %}
+    <li><a href='/posts/{{post.post_id}}'>{{post.title}}</a></li>
+    {% endfor %}
+</ul>
+<form action="/users/{{user.user_id}}/posts/new">
+    <button type="submit">New Post</button>
+</form>   
+
 {% endblock %}
