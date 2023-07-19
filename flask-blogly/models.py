@@ -25,6 +25,7 @@ class User(db.Model):
     last_name = db.Column(db.String,
                           nullable = False)
     img_url = db.Column(db.String)
+    
 
 class Post(db.Model):
     __tablename__ = "posts"
@@ -43,4 +44,22 @@ class Post(db.Model):
                         db.ForeignKey('users.user_id'),
                         nullable=False)
     user = db.relationship("User", backref="posts")
+    tags = db.relationship("PostTag", backref="post")
     
+class Tag(db.Model):
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer,
+                    autoincrement = True,
+                    primary_key = True)
+    name = db.Column(db.Text,
+                        unique = True)
+    posts = db.relationship("PostTag", backref="tag")
+         
+class PostTag(db.Model):
+    post_id = db.Column(db.Integer,
+                        db.foreign_key("posts.post_id"),
+                        primary_key = True)
+    tag_id = db.Column(db.Integer,
+                       db.foreign_key("tags.id"),
+                       primary_key = True)

@@ -2,7 +2,7 @@
 
 from flask import Flask, redirect, render_template, request
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag
 
 app = Flask(__name__)
 app.app_context().push()
@@ -116,6 +116,48 @@ def delete_post(post_id):
     db.session.commit()
     return redirect(f'/users/{user_id}')
 
+@app.route("/tags")
+def list_tags():
+    """Show all existing tags"""
+    tags = tags.query.all()
+    return render_template("tags.html", tags=tags)
+
+@app.route("/tags/<tag_id>")
+def show_details(tag_id):
+    """Show posts associated with given tag"""
+    tag = Tag.query.get(tag_id)
+    posts = tag.posts
+    return render_template("tag_details.html", posts=posts, tag=tag)
+
+@app.route("/tags/new", methods=['GET', 'POST'])
+def create_tag():
+    """Show and process form for tag creation"""
+    if (request.method == "POST"):
+        name = request.form['name']
+        tag = Tag(name=name)
+        db.session.add(tag)
+        db.session.commit()
+        return redirect("/tags")
+    else:
+        return render_template("create_tag.html")
+
+
+@app.route("/tags/<tag_id>/edit", methods=['GET', 'POST'])
+def edit_tag(tag_id):
+    tag = Post.query.get(tag_id)
+    if (request.method == "POST"):
+        tag.name = request.form['name']
+        db.session.add(tag)
+        db.session.commit()
+        return redirect("/tags")
+    else:
+        return render_template("create_tag.html", tag=tag)
+
+@app.route("/tags/<tag_id>/delete", methods=['POST'])
+def delete_tag(tag_id):
+    Tag.query.filter_by(id=tag_id).delete()
+    db.session.commit()
+    return redirect("/tags")
 """
 TODO
 
