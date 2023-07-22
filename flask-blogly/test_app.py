@@ -52,3 +52,13 @@ class TestRoutes(TestCase):
 
             self.assertNotIn("Test user1", html)
 
+"""
+TODO:
+Add tests for
+- can you add a tag
+- can you add tags to a post
+- does a tag appear checked if you edit a post
+- does editing a tag change the tags on the post
+- Can you delete a tag
+- When a tag is added to a post, is it reflected in the tag details page
+"""

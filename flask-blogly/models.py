@@ -58,8 +58,8 @@ class Tag(db.Model):
          
 class PostTag(db.Model):
     post_id = db.Column(db.Integer,
-                        db.foreign_key("posts.post_id"),
+                        db.ForeignKey("posts.post_id"),
                         primary_key = True)
     tag_id = db.Column(db.Integer,
-                       db.foreign_key("tags.id"),
+                       db.ForeignKey("tags.id"),
                        primary_key = True)

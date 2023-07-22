@@ -2,7 +2,7 @@
 
 from flask import Flask, redirect, render_template, request
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User, Post, Tag
+from models import db, connect_db, User, Post, Tag, PostTag
 
 app = Flask(__name__)
 app.app_context().push()
@@ -74,16 +74,22 @@ def delete_user(user_id):
 def new_post(user_id):
     """Show post creation page or process user post submission"""
     user = User.query.get_or_404(user_id)
+    tags = Tag.query.all()
     if (request.method == "POST"):
+        tag_ids = request.form.getlist('tags')
         title = request.form['title']
         content = request.form['content']
         user_id = user_id
         post = Post(title=title, content=content, user_id=user_id)
         db.session.add(post)
         db.session.commit()
+        for tag_id in tag_ids:
+            post_tag = PostTag(post_id=post.post_id, tag_id=tag_id)
+            db.session.add(post_tag)
+        db.session.commit()
         return redirect(f'/users/{user_id}')
     else:
-        return render_template('post_submission.html', user=user)
+        return render_template('post_submission.html', user=user, tags=tags)
     
 
 @app.route('/posts/<post_id>')
@@ -95,15 +101,29 @@ def show_post(post_id):
 @app.route('/posts/<post_id>/edit', methods=['GET', 'POST'])
 def edit_post(post_id):
     """Edit post on user page"""
+    tags = Tag.query.all()
     post = Post.query.get(post_id)
+    post_tags = post.tags
     if (request.method == "POST"):
+        tag_ids = request.form.getlist('tags') 
         post.title = request.form['title']
         post.content = request.form['content']
+        # Delete PostTags that are no longer in the 
+        for tag in post_tags:
+            if tag.tag_id not in tag_ids:
+                PostTag.query.filter(PostTag.post_id==post.post_id, PostTag.tag_id==tag.tag_id).delete()
+                db.session.commit()
+        for tagid in tag_ids:
+            post_tag = PostTag(post_id=post.post_id, tag_id=tagid)
+            db.session.add(post_tag)
         db.session.add(post)
         db.session.commit()
         return redirect(f'/posts/{post_id}')
     else:
-        return render_template('edit_post.html', post=post)
+        id_list = []
+        for post_tag in post_tags:
+            id_list.append(post_tag.tag_id)
+        return render_template('edit_post.html', post=post, ids=id_list, tags=tags)
 
 
 @app.route('/posts/<post_id>/delete', methods=['POST'])
@@ -119,7 +139,7 @@ def delete_post(post_id):
 @app.route("/tags")
 def list_tags():
     """Show all existing tags"""
-    tags = tags.query.all()
+    tags = Tag.query.all()
     return render_template("tags.html", tags=tags)
 
 @app.route("/tags/<tag_id>")
@@ -160,6 +180,9 @@ def delete_tag(tag_id):
     return redirect("/tags")
 """
 TODO
+ADD tests
+Add bootstrap to tags, pages
+
 
 TESTING:
 fix previous tests
