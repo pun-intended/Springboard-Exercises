@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Edit Pet{% endblock %}
+{% block body %}
+
+<div class="container">
+<h1 class="display-1 text-center">{{pet.name}}</h1>
+{% if {{pet.photo_url}} %}
+<img src="{{pet.photo_url}}" alt="Photo of {{pet.name}}">
+{% else %}
+<img src="/{{pet.species}}" alt="Image of a cute {{pet.species}}">
+{% endif %}
+<p>Age: {{pet.age}}</p>
+<p>Availability:{% "Here" if pet.availability else "Gone" %}</p>
+</div>
+
+<div class="container">
+<h1 class="display-1 text-center">Edit Details</h1>
+<div class="row content-justify-center">
+    <div class="container"></div>
+    <form action="/{{pet.id}}" method="post">
+        {{form.hidden_tag()}}
+        {% for field in form if field.widget.input_type != 'hidden' %}
+        <div class="form-group">
+            {{field.label}}:{{field(class_="form-control")}}
+        </div>
+        {% endfor %}
+        <button class="btn btn-success">Save Changes</button>
+
+    </form>
+</div>
+</div>
+</div>
+{% endblock %}

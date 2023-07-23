@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Edit Pet{% endblock %}
+{% block body %}
+
+<div class="container">
+    <div class="card">
+        <h1 class="display-1 text-center">{{pet.name}}</h1>
+        {% if pet.photo_url == None or pet.photo_url == "" %}
+        <img src="/static/{{pet.species}}.jpeg" alt="Image of a cute {{pet.species}}">
+        {% else %}
+        <img src="{{pet.photo_url}}" alt="Photo of {{pet.name}}">
+        {% endif %}
+        <div class="card-body">
+            <h4 class="card-title">{{pet.name}}</h4>
+            <p class="card-text">{{pet.notes}}</p>
+            </div>
+        <ul class="list-group list-group-flush">
+        <li class="list-group-item">Age: {{pet.age}}</p>
+        <li class="list-group-item">Availability:{{ "Here" if pet.available else "Gone" }}</p>
+        </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <h1 class="display-1 text-center">Edit Details</h1>
+    <div class="row content-justify-center">
+        <div class="col-8 content-justify-center">
+        <form action="/{{pet.id}}" method="post">
+            {{form.hidden_tag()}}
+            <div class="form-group">
+                {{form.photo_url.label}}
+                {{form.photo_url(class_="form-control")}}
+            </div>
+            <div class="form-group">
+                {{form.notes.label}}
+                {{form.notes(class_="form-control")}}
+            </div>
+            <div class="form-check">
+
+                {{form.available.label(class_="form-check-label")}}{{form.available(class_="form-check-input")}}
+            </div>
+            <button class="btn btn-success">Save Changes</button>
+
+        </form>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

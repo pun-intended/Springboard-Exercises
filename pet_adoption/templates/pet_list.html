@@ -1,9 +1,31 @@
 {% extends 'base.html' %}
 {% block title %}All Pets{% endblock %}
 {% block body %}
-    <ul>
-    {% for pet in pets %}
-        <li>"{{pet.name}} - {{pet.species}} ({{pet.age}})"</li>
-    {% endfor %}
-    </ul>
+<h1 class="display-1">All Pets</h1>
+<div class="container">
+    <div class="row">
+        {% for pet in pets %}
+        <div class="col-3">
+            <div class="card">
+            {% if pet.img_url %}
+            
+            <img class="card-img-top" src="pet.img_url" alt="image of {{pet.name}}"><br>
+            {% else %}
+            <img class="card-img-top" src="/static/{{pet.species}}.jpeg" alt="Generic illustration of a {{pet.species}}"><br>
+            {% endif %}
+            <div class="card-body bg-success">
+                <p class="card-text text-light"><a class="link-dark" href="{{pet.id}}">{{pet.name}}</a> is {{ "" if pet.available else "not" }} available</div>
+            </div>
+            </div>
+            
+   
+{% endfor %}
+</div>
+    </div>
+</div>
+<div class="container">
+<form action="/add" method="get">
+<button class="btn btn-success">Add a Pet</button>
+</form>
+</div>
 {% endblock %}
