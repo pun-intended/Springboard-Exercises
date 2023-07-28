@@ -24,7 +24,11 @@ class LinkedList {
 // change tail pointer to new node
 // change tail to new node
 // return tail
-  }
+    n = Node(val)
+    this.tail.next = n
+    this.tail = n
+    this.length += 1
+    }
 
   /** unshift(val): add new value to start of list. */
 
@@ -32,6 +36,10 @@ class LinkedList {
 // add pointer to head
 // change head to new node
 // return head
+    n = Node(val)
+    n.next = this.head
+    this.head = n
+    this.length += 1
   }
 
   /** pop(): return & remove last item. */
@@ -41,6 +49,15 @@ class LinkedList {
 // hold "next"
 // remove pointer to last node
 // change tail to current node
+    currentNode = this.head
+    while (currentNode.next.next){
+      currentNode = currentNode.next
+    }
+    n = currentNode.next
+    this.tail = currentNode
+    currentNode.next = null
+    this.length -= 1
+    return n.val
   }
 
   /** shift(): return & remove first item. */
@@ -50,6 +67,11 @@ class LinkedList {
 // set head to next node
 // change set pointer of current node to null
 // return node
+    n = this.head
+    this.head = this.head.next
+    n.next = null
+    this.length -= 1
+    return n.val
   }
 
   /** getAt(idx): get val at idx. */
@@ -61,13 +83,36 @@ class LinkedList {
 // start at head
 // while counter is > 0, current node = current node.next
 // return val
+    counter = 0
+    currentNode = this.head
+    while(counter < idx){
+      currentNode = currentNode.next
+      counter += 1
+  }
+    if (currentNode){
+      return currentNode.val
+    }
+    else{
+      throw error;
+    }
   }
 
   /** setAt(idx, val): set val at idx to val */
 
   setAt(idx, val) {
-// traverse list to idx
-// node.val = val
+
+    counter = 0
+    currentNode = this.head
+    while(counter < idx){
+      currentNode = currentNode.next
+      counter += 1
+    }
+    if (currentNode){
+      return currentNode.val = val;
+    }
+    else{
+      throw error;
+    }
   }
 
   /** insertAt(idx, val): add node w/val before idx. */
@@ -77,6 +122,16 @@ class LinkedList {
 // traverse to idx - 1
 // set new node.next to currentnode.next.next
 // set current node.next to new node
+    n = Node(val)
+    counter = 0
+    currentNode = this.head
+    while(counter < idx - 1){
+      currentNode = currentNode.next
+      counter += 1
+    }
+    n.next = currentNode.next
+    currentNode.next = n
+    this.length += 1
   }
 
   /** removeAt(idx): return & remove item at idx, */
@@ -87,6 +142,17 @@ class LinkedList {
 // current node.next = current node.next.next
 // saved node.next = null
 // return savednode.val
+    counter = 0
+    currentNode = this.head
+    while(counter < idx - 1){
+      currentNode = currentNode.next
+      counter += 1
+    }
+    n = currentNode.next
+    currentNode.next = n.next
+    n.next = null
+    this.length -= 1
+    return n.val
   }
 
   /** average(): return an average of all values in the list */
@@ -96,6 +162,13 @@ class LinkedList {
     // start traversal at head
     // at each node, add val to aggregator
     // return agg / count
+
+    tally = 0
+    currentNode = this.head
+    while (currentNode){
+      tally += currentNode.val
+    }
+    return tally/this.length
   }
 }
 
