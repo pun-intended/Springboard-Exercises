@@ -24,7 +24,7 @@ class LinkedList {
 // change tail pointer to new node
 // change tail to new node
 // return tail
-    n = Node(val)
+    let n = new Node(val)
     this.tail.next = n
     this.tail = n
     this.length += 1
@@ -36,7 +36,7 @@ class LinkedList {
 // add pointer to head
 // change head to new node
 // return head
-    n = Node(val)
+    let n = new Node(val)
     n.next = this.head
     this.head = n
     this.length += 1
@@ -49,11 +49,11 @@ class LinkedList {
 // hold "next"
 // remove pointer to last node
 // change tail to current node
-    currentNode = this.head
+    let currentNode = this.head
     while (currentNode.next.next){
       currentNode = currentNode.next
     }
-    n = currentNode.next
+    let n = currentNode.next
     this.tail = currentNode
     currentNode.next = null
     this.length -= 1
@@ -67,7 +67,7 @@ class LinkedList {
 // set head to next node
 // change set pointer of current node to null
 // return node
-    n = this.head
+    let n = this.head
     this.head = this.head.next
     n.next = null
     this.length -= 1
@@ -83,8 +83,8 @@ class LinkedList {
 // start at head
 // while counter is > 0, current node = current node.next
 // return val
-    counter = 0
-    currentNode = this.head
+    let counter = 0
+    let currentNode = this.head
     while(counter < idx){
       currentNode = currentNode.next
       counter += 1
@@ -101,8 +101,8 @@ class LinkedList {
 
   setAt(idx, val) {
 
-    counter = 0
-    currentNode = this.head
+    let counter = 0
+    let currentNode = this.head
     while(counter < idx){
       currentNode = currentNode.next
       counter += 1
@@ -122,9 +122,9 @@ class LinkedList {
 // traverse to idx - 1
 // set new node.next to currentnode.next.next
 // set current node.next to new node
-    n = Node(val)
-    counter = 0
-    currentNode = this.head
+    let n = new Node(val)
+    let counter = 0
+    let currentNode = this.head
     while(counter < idx - 1){
       currentNode = currentNode.next
       counter += 1
@@ -142,13 +142,13 @@ class LinkedList {
 // current node.next = current node.next.next
 // saved node.next = null
 // return savednode.val
-    counter = 0
-    currentNode = this.head
+    let counter = 0
+    let currentNode = this.head
     while(counter < idx - 1){
       currentNode = currentNode.next
       counter += 1
     }
-    n = currentNode.next
+    let n = currentNode.next
     currentNode.next = n.next
     n.next = null
     this.length -= 1
@@ -163,8 +163,8 @@ class LinkedList {
     // at each node, add val to aggregator
     // return agg / count
 
-    tally = 0
-    currentNode = this.head
+    let tally = 0
+    let currentNode = this.head
     while (currentNode){
       tally += currentNode.val
     }
