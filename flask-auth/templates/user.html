@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}{{user.username}}{% endblock %}
+
+{% block body %}
+<ul class="user_posts">
+{% for feedback in user.feedback %}
+<li class="post">{{feedback.title}}
+    <br><form>
+        <button type="submit" formaction="/feedback/{{feedback.id}}/update" formmethod="get">Edit</a><button type="submit" formaction="/feedback/{{feedback.id}}/delete" formmethod="post">Delete</a> </li>
+    </form>
+{% endfor %}
+</ul>
+{% endblock %}
