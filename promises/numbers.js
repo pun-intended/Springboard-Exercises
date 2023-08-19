@@ -1,3 +1,9 @@
+
+let $factList = $("#details")
+let faveNumber = 4
+
+let numberData = []
+
 function get(url){
     const xhr = new XMLHttpRequest()
 
@@ -22,19 +28,31 @@ function get(url){
     })
 }
 
-get("http://numbersapi.com/3?json")
+
+function createList(resultArray){
+    for (result of resultArray){
+        listItem = $("<li>").text(result["text"])
+        console.log(result["text"])
+        $factList.append(listItem)
+    }
+}
+
+get(`http://numbersapi.com/${faveNumber}?json`)
 .then(res => {
-    console.log(res)
-    return get("http://numbersapi.com/3?json")
+    numberData.push(res)
+    return get(`http://numbersapi.com/${faveNumber}?json`)
     })
 .then(res => {
-    console.log(res)
-    return get("http://numbersapi.com/3?json")
+    numberData.push(res)
+    return get(`http://numbersapi.com/${faveNumber}?json`)
 })
 .then(res => {
-    console.log(res)
-    return get("http://numbersapi.com/3?json")
+    numberData.push(res)
+    return get(`http://numbersapi.com/${faveNumber}?json`)
         })
 .then(res => {
-    console.log(res)})
+    numberData.push(res)
+    createList(numberData)
+})
 .catch(err => console.log(err))
+

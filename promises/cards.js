@@ -1,4 +1,6 @@
-
+const URL = "https://deckofcardsapi.com/api/deck"
+let $draw = $("#draw")
+let $table = $("#table")
 
 function get(url){
     const xhr = new XMLHttpRequest()
@@ -23,10 +25,31 @@ function get(url){
         xhr.send()
     })
 }
+let deckId;
+let remaining;
 
-const DECK = get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
+get(`${URL}/new/shuffle/?deck_count=1`)
 .then(res => {
-    console.log(res["deck_id"])
-    return res["deck_id"]
+    
+    deckId = res["deck_id"]
+    remaining = res["remaining"]
+    console.log("done")
 })
-.catch(err => console.log(err))
+
+function drawCard(){
+    let card;
+    get(`${URL}/${deckId}/draw`)
+    .then( res => {
+        cardImage = res["cards"][0]["image"]
+        remaining = res["remaining"]
+        console.log(`${card}  -  ${remaining}`)
+        card = `<img src="${cardImage}"></img>`
+        $table.append(card)
+    })
+}
+
+$draw.click(function(){
+    if(remaining > 0){
+        drawCard()
+    }
+});
