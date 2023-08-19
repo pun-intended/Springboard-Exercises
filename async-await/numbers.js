@@ -2,57 +2,26 @@
 let $factList = $("#details")
 let faveNumber = 4
 
-let numberData = []
-
-function get(url){
-    const xhr = new XMLHttpRequest()
-
-    return new Promise((resolve, reject) => {
-        xhr.onload = function() {
-            if (xhr.readyState !== 4) return;
-        
-            if (xhr.status >= 200 && xhr.status < 300){
-                resolve(JSON.parse(xhr.response));
-            } else {
-                reject(xhr.status);
-            }
-        }
-
-        xhr.onerror = function handleError(){
-            console.log("Network error")
-            request = null;
-        }
-
-        xhr.open("GET", url)
-        xhr.send()
-    })
-}
-
-
-function createList(resultArray){
+async function createList(){
+    resultArray = await getNumberInfo()
     for (result of resultArray){
-        listItem = $("<li>").text(result["text"])
-        console.log(result["text"])
+        listItem = $("<li>").text(result.data.text)
         $factList.append(listItem)
     }
 }
 
-get(`http://numbersapi.com/${faveNumber}?json`)
-.then(res => {
-    numberData.push(res)
-    return get(`http://numbersapi.com/${faveNumber}?json`)
-    })
-.then(res => {
-    numberData.push(res)
-    return get(`http://numbersapi.com/${faveNumber}?json`)
-})
-.then(res => {
-    numberData.push(res)
-    return get(`http://numbersapi.com/${faveNumber}?json`)
-        })
-.then(res => {
-    numberData.push(res)
-    createList(numberData)
-})
-.catch(err => console.log(err))
+
+async function getNumberInfo(){
+    let data = []
+    d1 = axios.get(`http://numbersapi.com/${faveNumber}?json`)
+    d2 = axios.get(`http://numbersapi.com/${faveNumber}?json`)
+    d3 = axios.get(`http://numbersapi.com/${faveNumber}?json`)
+    d4 = axios.get(`http://numbersapi.com/${faveNumber}?json`)
+    for (dpromise of [d1, d2, d3, d4])
+        data.push(await dpromise)
+    return data
+}
+
+createList()
+
 
