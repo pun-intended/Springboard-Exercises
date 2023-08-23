@@ -1,16 +1,23 @@
 /** Command-line tool to generate Markov text. */
+const markov = require("./markov")
+const fs = require("fs")
+const axios = require("axios")
 
 async function catUrl(url) {
     resp = await axios.get(url)
-    this.words = resp.data
+    text = resp.data
+    mm = new markov.MarkovMachine(text)
+    console.log(mm.makeText())
   }
 
-  function catFile(filename) {
+function catFile(filename) {
     fs.readFile(filename, "utf8", (err, data) => {
       if (err) {
         console.log("Error: ", err)
       }
-      this.words = data
+      text = data
+      mm = new markov.MarkovMachine(text)
+      console.log(mm.makeText())
     })
   }
 
@@ -19,6 +26,7 @@ async function catUrl(url) {
     catFile(filename)
   } else if (process.argv[2] == 'url'){
     url = process.argv[3]
+    catUrl(url)
   } else {
     console.log("Error: Please specify 'file' or 'url' as the data type")
   }

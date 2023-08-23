@@ -55,7 +55,6 @@ class MarkovMachine {
       if (next == null){
         next = this.getRandomWord()
       } 
-      console.log("\nAdding:", next)
       text += " "
       text += next
       current = next
@@ -68,3 +67,6 @@ class MarkovMachine {
 
 }
 
+module.exports = {
+  MarkovMachine: MarkovMachine
+}
