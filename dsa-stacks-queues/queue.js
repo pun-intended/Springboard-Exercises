@@ -21,7 +21,11 @@ class Queue {
 
   enqueue(val) {
     let node = new Node(val)
-    this.last.next = node
+    if (this.isEmpty()){
+      this.first = node
+    } else {
+      this.last.next = node
+    }
     this.last = node
     this.size++
     return
@@ -32,12 +36,14 @@ class Queue {
 
   dequeue() {
     // if size == 0, throw error
-    if (this.isEmpty()) throw
+    if (this.isEmpty()) {
+      throw new Error("Queue is empty")
+    }
     let target = this.first
     this.first = this.first.next
     target.next = null
-    size--
-    return target
+    this.size--
+    return target.val
   }
 
   /** peek(): return the value of the first node in the queue. */

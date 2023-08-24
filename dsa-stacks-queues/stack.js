@@ -20,10 +20,14 @@ class Stack {
   /** push(val): add new value to end of the stack. Returns undefined. */
 
   push(val) {
+
     let pushedNode = new Node(val)
+    if (this.isEmpty()){
+      this.last = pushedNode
+    }
     pushedNode.next = this.first
     this.first = pushedNode
-    size++
+    this.size++
     return
   }
 
@@ -31,13 +35,15 @@ class Stack {
    * and return its value. Should throw an error if the stack is empty. */
 
   pop() {
-    if (this.isEmpty()) throw 
+    if (this.isEmpty()) {
+      throw new Error("Stack is empty")
+    }
     // if size == 0, throw error
     let poppedNode = this.first
     this.first = this.first.next
     poppedNode.next = null
-    size--
-    return poppedNode
+    this.size--
+    return poppedNode.val
     // poppedNode = stack.first
     // stackFirst = poppedNode.next
     // poppedNode.next = null
