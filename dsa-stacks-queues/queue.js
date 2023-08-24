@@ -20,10 +20,10 @@ class Queue {
   /** enqueue(val): add new value to end of the queue. Returns undefined. */
 
   enqueue(val) {
-    // create node
-    // node next = last
-    // last = node
-    // size ++
+    let node = new Node(val)
+    this.last.next = node
+    this.last = node
+    this.size++
     return
   }
 
@@ -32,10 +32,12 @@ class Queue {
 
   dequeue() {
     // if size == 0, throw error
-    // set target = first
-    // first = first.next
-    // size --
-    // return target
+    if (this.isEmpty()) throw
+    let target = this.first
+    this.first = this.first.next
+    target.next = null
+    size--
+    return target
   }
 
   /** peek(): return the value of the first node in the queue. */
