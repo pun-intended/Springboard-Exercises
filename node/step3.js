@@ -10,7 +10,7 @@ function cat(path, out){
     fs.readFile(path, "utf8", (err, data) => {
     if(err){
         console.log("Error: ", err)}
-    handleOutput(path, out)
+    handleOutput(path, data)
 })}
 
 function handleOutput(data, filename){
