@@ -24,19 +24,32 @@ app.post("/items", function(req, res){
         price: req.body.price
     }
     fakeDb.push(item)
+    return res.json({"Added": item})
 })
 
 app.get('/items/:name', function(req, res){
     item = fakeDb.items.find(itm => {
         return itm.name == req.params.name})
-    return res.send(item)
+    return res.json(item)
 })
 
 app.patch('/items/:name', function(req, res){
-    
+    item = fakeDb.items.find(itm => {
+        return itm.name == req.params.name})
+    if (item){
+        item.name = req.body.name
+        item.price = req.body.price
+    }
+    return res.json({"updated": item})
 })
 
-app.delete('/items/:name', function(req, res){})
+app.delete('/items/:name', function(req, res){
+    item = fakeDb.items.find(itm => {
+        return itm.name == req.params.name})
+    idx = fakeDb.items.indexOf(item)
+    fakeDb.items.splice(idx, 1)
+    return res.json({message: "Deleted"})
+})
 
 app.listen(3000, function(){
     console.log("App on port 3000");
