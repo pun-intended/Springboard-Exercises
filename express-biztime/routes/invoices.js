@@ -1,6 +1,6 @@
 const express = require("express");
 const router = new express.Router()
-const db = require("./db")
+const db = require("../db")
 const ExpressError = require("../expressError");
 
 router.get('/', async (req, res) => {
@@ -126,3 +126,5 @@ router.get('companies/:code', async (req, res) => {
         return next(err)
     }
 })
+
+modules.export = router;
