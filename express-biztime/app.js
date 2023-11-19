@@ -10,6 +10,9 @@ const ExpressError = require("./expressError")
 
 app.use(express.json());
 
+/** Routes **/ 
+app.use('/companies', companies)
+app.use('/invoices', invoices)
 
 /** 404 handler */
 
@@ -17,11 +20,6 @@ app.use(function(req, res, next) {
   const err = new ExpressError("Not Found", 404);
   return next(err);
 });
-
-/** Routes **/ 
-app.use('/companies', companies)
-
-app.use('/invoices', invoices)
 
 /** general error handler */
 
