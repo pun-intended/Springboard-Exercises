@@ -127,4 +127,4 @@ router.get('companies/:code', async (req, res) => {
     }
 })
 
-modules.export = router;
+module.exports = router;
