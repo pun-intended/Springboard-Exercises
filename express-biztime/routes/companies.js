@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/:code', async (req, res) => {
+    const code = req.params
     try{
         const result = await db.query(
             `SELECT code, name, description FROM companies WHERE code=$1`
@@ -30,8 +31,8 @@ router.get('/:code', async (req, res) => {
     }
 })
 router.post('/', async (req, res) => {
+    const {code, name, description} = req.body
     try{
-        const {code, name, description} = req.body
         const result = await db.query(
             `INSERT INTO companies(code, name, description)
             VALUES $1, $2, $3
@@ -44,8 +45,9 @@ router.post('/', async (req, res) => {
     }
 })
 router.put('/:code', async (req, res) => {
+    const code = req.params
+    const {name, description} = req.body
     try{
-        const {name, description} = req.body
         const result = await db.query(
             `UPDATE companies SET $1, $2 
             WHERE code = $3
@@ -62,6 +64,7 @@ router.put('/:code', async (req, res) => {
 })
 router.delete('/:code', async (req, res) => {
     try{
+        const code = req.params
         const result = await db.query(
             `DELETE FROM companies
             WHERE code = $1`
