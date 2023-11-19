@@ -25,11 +25,13 @@ router.post('/', (res, req) => {
 })
 
 // Get items/:name
-const patchItem = items.find(i => i.name == req.params.name)
+router.patch('/', (req, res) => {
+	const patchItem = items.find(i => i.name == req.params.name)
     if (patchItem === undefined){
         throw new ExpressError(`Item ${req.params.name} not found`)
     }
     res.json({item: patchItem})
+})
 
 // Patch items/:name
 router.patch('/:name', (res, req) => {
