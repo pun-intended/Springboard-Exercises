@@ -17,16 +17,13 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/:code', async (req, res, next) => {
-    // const code = req.params
-    console.log(req.params.code)
     try{
         const result = await db.query(
             `SELECT code, name, description FROM companies WHERE code = $1`, 
             [req.params.code]
         );
-        console.log(result)
         if (result.rows.length === 0){
-            throw new ExpressError(`No company found with code ${code}`, 404)
+            next(new ExpressError(`No company found with code ${code}`, 404))
         };
         return res.json({company: result.rows[0]});
     } catch (err) {
@@ -38,18 +35,18 @@ router.post('/', async (req, res, next) => {
     const slugCode = slugify(code, {remove: /[*+~.()'"!:@]/g, lower: true})
     try{
         const result = await db.query(
-            `INSERT INTO companies(code, name, description)
-            VALUES $1, $2, $3
+            `INSERT INTO companies (code, name, description)
+            VALUES ($1, $2, $3)
             RETURNING code, name, description`,
             [slugCode, name, description]
         )
-        return res.json({company: results.rows[0]})
+        return res.status(201).json({company: result.rows[0]})
     } catch (err) {
         return next(err)
     }
 })
 router.put('/:code', async (req, res, next) => {
-    const code = req.params
+    const code = req.params.code
     const {name, description} = req.body
     try{
         const result = await db.query(
@@ -59,23 +56,25 @@ router.put('/:code', async (req, res, next) => {
             [name, description, code]
         )
         if (result.rows.length === 0){
-            throw new ExpressError(`No company found with code ${code}`, 404)
+            return next(new ExpressError(`No company found with code ${code}`, 404))
         }
-        return res.json({company: results.rows[0]})
+        return res.status(200).json({company: result.rows[0]})
     } catch (err) {
         return next(err)
     }
 })
+
 router.delete('/:code', async (req, res, next) => {
-    const code = req.params
+    const code = req.params.code
     try{
         const result = await db.query(
             `DELETE FROM companies
-            WHERE code = $1`,
+            WHERE code = $1
+            RETURNING code`,
             [code]
         )
         if (result.rows.length === 0){
-            throw new ExpressError(`No company found with code ${code}`, 404)
+            return next(new ExpressError(`No company found with code ${code}`, 404))
         }
         return res.json({status: "deleted"})
     } catch (err) {
