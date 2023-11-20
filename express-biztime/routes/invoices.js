@@ -8,7 +8,7 @@ router.get('/', async (req, res, next) => {
         const result = await db.query(
             `SELECT id, comp_code FROM invoices`
         )
-        return res.json({invoice: result.rows})
+        return res.json({invoices: result.rows})
     } catch (err) {
         return next(err)
     }
@@ -45,11 +45,11 @@ router.post('/', async (req, res, next) => {
     try{
         const result = await db.query(
             `INSERT INTO invoices(comp_code, amt) 
-            VALUES $1, $2
+            VALUES ($1, $2)
             RETURNING id, comp_code, amt, paid, add_date, paid_date`,
             [comp_code, amt]
         )
-        return res.json({invoice: results.rows[0]})
+        return res.status(201).json({invoice: result.rows[0]})
     } catch (err) {
         return next(err)
     }
@@ -58,41 +58,42 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     const {amt, paid} = req.body
     const id = req.params.id
-    let paid_date;
 
     try{
         const invoice = await db.query(
             `SELECT id, paid, paid_date
-            FROM invoice
+            FROM invoices
             WHERE id = $1`,
             [id]
         )
+        if(invoice.rows.length === 0){
+            return next(new ExpressError(`No invoice found with id ${id}`, 404))
+        }
+        let paid_date = new Date().toJSON().slice(0, 10)
+        if(paid && !invoice.rows[0].paid){
+            paid_date = new Date().toJSON().slice(0, 10)
+        } else if(!paid && invoice.rows[0].paid){
+            paid_date = null
+        } else {
+            paid_date = invoice.rows[0].paid_date
+        }
+
+        try{
+            const result = await db.query(
+                `UPDATE invoices SET amt=$1, paid_date=$2, paid=$3
+                WHERE id = $4
+                RETURNING id, comp_code, amt, paid, add_date, paid_date`,
+                [amt, paid_date, paid, id]
+            )
+            
+            return res.json({invoice: result.rows[0]})
+        } catch (err) {
+            return next(err)
+        }
     } catch (err){
         return next(err)
     }
-    if(invoice.rows.length === 0){
-        return next(new ExpressError(`No invoice found with id ${id}`, 404))
-    }
-    // Set paid_date value
-    if(paid && !invoice.paid){
-        paid_date = new Date().toJSON().slice(0, 10)
-    } else if(!paid && invoice.paid){
-        paid_date = null
-    } else {
-        paid_date = invoice.paid_date
-    }
-
-    try{
-        const result = await db.query(
-            `UPDATE invoices SET amt=$1, paid_date=$2 
-            WHERE id = $3
-            RETURNING id, comp_code, amt, paid, add_date, paid_date`,
-            [amt, paid_date, id]
-        )
-        return res.json({invoice: result.rows[0]})
-    } catch (err) {
-        return next(err)
-    }
+    
     
 })
 
@@ -101,7 +102,8 @@ router.delete('/:id', async (req, res, next) => {
     try{
         const result = await db.query(
             `DELETE FROM invoices
-            WHERE id = $1`,
+            WHERE id = $1
+            RETURNING id`,
             [id]
         )
         if (result.rows.length === 0){
@@ -138,7 +140,7 @@ router.get('/companies/:code', async (req, res, next) => {
         // add array of invoice IDs to company
         if (invResult.rows.length > 0){
             invoiceIds = invResult.rows.map(r => {return r.id})
-            company.invoices = invoiceIds
+            company.company.invoices = invoiceIds
         }
         return res.json(company)
 
