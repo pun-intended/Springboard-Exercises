@@ -80,6 +80,7 @@ class Customer {
   }
 
   // return customers full name
+  
   fullName(){
     const fullName = `${this.firstName} ${this.lastName}`
     return fullName;
