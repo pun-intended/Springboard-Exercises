@@ -2,6 +2,7 @@
 const db = require("../db");
 const ExpressError = require("../expressError");
 const bcrypt = require('bcrypt')
+const {BCRYPT_WORK_FACTOR} = require("../config")
 
 
 /** User of the site. */
@@ -12,20 +13,19 @@ class User {
    *    {username, password, first_name, last_name, phone}
    */
   static async register({username, password, first_name, last_name, phone}) {
-    
     try{
-    const results = await db.query(`
-        INSERT INTO users (username, password, first_name, lastName, phone)
-        VALUES ($1, $2, $3, $4, %5)
-        RETURNING username, password, first_name, last_name, phone`
-        [username, password, first_name, last_name, phone])
-
+      const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR)
+      const results = await db.query(`
+        INSERT INTO users(username, password, first_name, last_name, phone, join_at, last_login_at)
+        VALUES ($1, $2, $3, $4, $5, current_timestamp, current_timestamp)
+        RETURNING username, password, first_name, last_name, phone`,
+        [username, hashedPassword, first_name, last_name, phone])
+      return results.rows[0];
     } catch (e) {
       if (e.code === "23505"){
         return next(new ExpressError("Username already in use", 400))
       }
     }
-      return results.rows[0];
    }
 
   /** Authenticate: is this username/password valid? Returns boolean. */
@@ -34,10 +34,10 @@ class User {
     const results = await db.query(`
     SELECT username, password
     FROM users
-    WHERE username = $1`
+    WHERE username = $1`,
     [username])
 
-    const user = results.row[0]
+    const user = results.rows[0]
 
     if(user){
       if (await bcrypt.compare(password, user.password)){
@@ -55,8 +55,9 @@ class User {
     const results = await db.query(`
       UPDATE users
         SET last_login_at = current_timestamp
-        WHERE username = $1`
+        WHERE username = $1`,
         [username])
+      
 
   }
 
@@ -84,12 +85,13 @@ class User {
     const results = await db.query(`
         SELECT username, first_name, last_name, phone, join_at, last_login_at
         FROM users
-        WHERE username = $1`
+        WHERE username = $1`,
         [username])
 
       if (!results.rows[0]){
         return new ExpressError(`No user found with username ${username}`)
       }
+      return results.rows[0];
   }
 
   /** Return messages from this user.
@@ -114,7 +116,7 @@ class User {
       FROM messages as m
         JOIN users AS t ON m.to_username = t.username
       WHERE m.from_username = $1
-    `
+    `,
       [username])
 
     if(!results.rows[0]){
@@ -161,7 +163,7 @@ class User {
       FROM messages as m
         JOIN users AS f ON m.from_username = f.username
       WHERE m.to_username = $1
-    `
+    `,
     [username])
 
     if(!results.rows[0]){
