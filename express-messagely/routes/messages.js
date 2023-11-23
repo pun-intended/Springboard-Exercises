@@ -16,7 +16,7 @@ const {SECRET_KEY} = require(`../config`)
  *               from_user: {username, first_name, last_name, phone},
  *               to_user: {username, first_name, last_name, phone}}
  *
- * Make sure that the currently-logged-in users is either the to or from user.
+ * Make sure that the currently-logged-in user is either the to or from user.
  *
  **/
 
@@ -28,9 +28,9 @@ router.get('/:id', async (req, res, next) => {
         if(req.user){
             const msg = await Message.get(req.params.id)
             if (req.user == msg.from_user || req.user == msg.to_user){
-                return msg
+                return res.json({message: msg})
             } else {
-                return next(new ExpressError("Invalid permissions", 401))
+                return next(new ExpressError("Unauthorized", 401))
             }
         } else{
             return next(new ExpressError("Must be logged in to view message", 400))
@@ -74,7 +74,7 @@ router.post('/', ensureLoggedIn, async (req, res, next) => {
  **/
 router.post('/:id', async (req, res, next) => {
     if(!req.user){
-        return next(new ExpressError("Invalid permissions", 401))
+        return next(new ExpressError("Unauthorized", 401))
     }
     try {
         const msg = await Message.get(req.params.id)
@@ -89,3 +89,5 @@ router.post('/:id', async (req, res, next) => {
         // error if not valid
     // mark as read with current timestamp
 })
+
+module.exports = router
