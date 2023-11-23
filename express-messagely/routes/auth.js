@@ -15,24 +15,23 @@ const {SECRET_KEY} = require(`../config`)
 
 router.post('/login', async (req, res, next) => {
     const {username, password} = req.body
-    let user;
 
-    if(!username || !body){
+    if(!username || !password){
         return next(new ExpressError("Must provide both username and password", 400))
     }
     try{
         if(await User.authenticate(username, password)){
             User.updateLoginTimestamp(username)
-            const payload = {username: username}
+            const payload = {username}
             const token = jwt.sign(payload, SECRET_KEY)
+            return res.json({token})
         } else {
             return next( new ExpressError("Invalid username/password", 400))
         }
 
     } catch (e) {
         return next(e)
-    }
-    return res.json({token})
+    }  
 })
 
 
@@ -54,10 +53,12 @@ router.post('/register', async (req, res, next) => {
     try{
         user = await User.register(username, password, first_name, last_name, phone)
         User.updateLoginTimestamp(username) //NOTE: Is this ok? no await as promise is not used
-        const payload = {username: user.username}
+        const payload = {username}
         const token = jwt.sign(payload, SECRET_KEY)
+        return res.json({token});
     } catch(e) {
         return next(e)
     }
-    return res.json({token});
 })
+
+module.exports = router
