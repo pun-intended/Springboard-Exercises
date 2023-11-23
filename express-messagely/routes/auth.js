@@ -22,8 +22,9 @@ router.post('/login', async (req, res, next) => {
     }
     try{
         if(await User.authenticate(username, password)){
-            user = await User.get(username)
             User.updateLoginTimestamp(username)
+            const payload = {username: username}
+            const token = jwt.sign(payload, SECRET_KEY)
         } else {
             return next( new ExpressError("Invalid username/password", 400))
         }
@@ -31,8 +32,7 @@ router.post('/login', async (req, res, next) => {
     } catch (e) {
         return next(e)
     }
-    const payload = {username: user.username}
-    const token = jwt.sign(payload, SECRET_KEY)
+    return res.json({token})
 })
 
 
@@ -59,5 +59,5 @@ router.post('/register', async (req, res, next) => {
     } catch(e) {
         return next(e)
     }
-    return token;
+    return res.json({token});
 })
