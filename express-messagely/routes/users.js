@@ -11,7 +11,7 @@ const ExpressError = require("../expressError")
  * => {users: [{username, first_name, last_name, phone}, ...]}
  *
  **/
-router.get("/", async (req, res, next) => {
+router.get("/", ensureLoggedIn, async (req, res, next) => {
     try{
         const allUsers = await User.all()
         return res.json(allUsers);
@@ -26,7 +26,7 @@ router.get("/", async (req, res, next) => {
  * => {user: {username, first_name, last_name, phone, join_at, last_login_at}}
  *
  **/
-router.get("/:username", async (req, res, next) => {
+router.get("/:username", ensureCorrectUser, async (req, res, next) => {
     try{
         const user = await User.get(req.params.username)
         return res.json({user: user})
@@ -44,7 +44,7 @@ router.get("/:username", async (req, res, next) => {
  *                 from_user: {username, first_name, last_name, phone}}, ...]}
  *
  **/
-router.get("/:username/to", async (req, res, next) => {
+router.get("/:username/to", ensureCorrectUser, async (req, res, next) => {
     try{
         const msgs = await User.messagesTo(req.params.username)
         return res.json({messages: msgs})
@@ -63,7 +63,7 @@ router.get("/:username/to", async (req, res, next) => {
  *                 to_user: {username, first_name, last_name, phone}}, ...]}
  *
  **/
-router.get("/:username/from", async (req, res, next) => {
+router.get("/:username/from", ensureCorrectUser, async (req, res, next) => {
     try{
         const msgs = await User.messagesFrom(req.params.username)
         return res.json({messages: msgs})
@@ -71,3 +71,5 @@ router.get("/:username/from", async (req, res, next) => {
         return next(e)
     }
 })
+
+module.exports = router
