@@ -63,6 +63,8 @@ describe("Books routes test", () => {
             // pass to post books
             // expect status code to be 400
             // expect message to contain # strings
+            expect().toHaveProperty()
+            expect().toThrow()
 
         })
 
