@@ -1,0 +1,19 @@
+.EightBall {
+    border-radius: 50%;
+    padding: auto;
+    margin-left: 50%;
+    margin-bottom: 10px;
+    transform: translate(-50%);
+    color: white;
+    height: 300px;
+    width: 300px;
+    text-align: center;
+}
+
+.EightBall-answer {
+    color: white;
+    position:relative;
+    top: 50%;
+    transform: translate(0,-50%);
+}
+
