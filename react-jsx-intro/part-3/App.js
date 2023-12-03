@@ -10,9 +10,9 @@ const ppl = [
     hobbies: ["Sport racing", "roller skating", "Yelling at children"]}
 ]
 
-const App = (props) => {
+const App = ({people}) => {
     return(<div>
-        {props.people.map(p => {
+        {people.map(p => {
             return <Person age={p.age} name={p.name} hobbies={p.hobbies}/>
         })}
     </div>)

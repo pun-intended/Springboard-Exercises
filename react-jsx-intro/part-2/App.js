@@ -19,10 +19,10 @@ const tweetArray = [
     }
 ]
 
-const App = (props) => {
+const App = ({tweets}) => {
     return(
     <div>
-        {props.tweets.map(t => {
+        {tweets.map(t => {
             return <Tweet username={t.username} name={t.name} date={t.date} msg={t.msg} />
         })}
     </div>

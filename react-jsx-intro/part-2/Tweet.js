@@ -1,8 +1,8 @@
-const Tweet = (props) => {
+const Tweet = ({username, name, date, msg}) => {
     return(
     <div class="tweet">
-        <h3>{props.username} - {props.name} ({props.date})</h3>
-        <p>{props.msg}</p>
+        <h3>{username} - {name} ({date})</h3>
+        <p>{msg}</p>
     </div>
     )
 }
