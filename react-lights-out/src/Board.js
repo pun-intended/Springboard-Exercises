@@ -33,21 +33,41 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
   function createBoard() {
     let initialBoard = [];
-    for(let row in nrows){
-      for (let col in ncols){
-        initialBoard[col].push(Math.random() < chanceLightStartsOn)
+    let cells = []
+    for(let i = 0; i < nrows; i++){
+      let row = []
+      for (let j = 0; j < ncols; j++){
+        row.push(Math.random() < chanceLightStartsOn)
       }
+      initialBoard.push(row)
     }
     return initialBoard;
   }
 
+  function createCells(board){
+    let cellArray = []
+      for(let row in board){
+        cellArray[row] = []
+        console.log(board[row])
+        for(let col in board[row]) {
+          cellArray[row][col] = <Cell flipCellsAroundMe={() => 
+            {return (flipCellsAround(`${row}-${col}`))}}
+            isLit={board[row][col]} />
+        }
+      }
+      return cellArray;
+  }
+
   function hasWon() {
+    console.log("Calling hasWon")
     // TODO: check the board in state to determine whether the player has won.
-    winState = board.every(row => row.every(c => c === false))
+    const winState = board.every(row => row.every(c => c === false))
+    console.log(winState)
     return winState;
   }
 
   function flipCellsAround(coord) {
+    console.log("Calling flip cells around")
     setBoard(oldBoard => {
       const [y, x] = coord.split("-").map(Number);
 
@@ -59,17 +79,14 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
         }
       };
 
-      // TODO: Make a (deep) copy of the oldBoard
-      newBoard = JSON.parse(JSON.stringify(board))
+      let newBoard = JSON.parse(JSON.stringify(board))
 
-      // TODO: in the copy, flip this cell and the cells around it
       flipCell(y, x, newBoard)
       flipCell(y+1, x, newBoard)
       flipCell(y, x+1, newBoard)
       flipCell(y-1, x, newBoard)
       flipCell(y, x-1, newBoard)
 
-      // TODO: return the copy
       return newBoard
     });
   }
@@ -77,6 +94,7 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   // if the game is won, just show a winning msg & render nothing else
 
   // TODO
+  let cells = createCells(board)
   if(hasWon()){
     return(
       <div>
@@ -85,17 +103,20 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
     )
   } else {
     return (
-      <div>
-      for(row in board){
-        <tr>
-          for(cell in row){
-            <Cell 
-            flipCellsAroundMe={() => {return flipCellsAround(`${row}-${cell}`)}} 
-            isLit={board[row][cell]} />
-          }
-        </tr>
-      }
-    </div>
+      <table>
+        Making Board
+        {cells.map((row) => {
+          return(
+            <tr>
+              {row.map((cell) => {
+                return(
+                  cell
+                )
+              })}
+            </tr> 
+          )
+        })}
+      </table>
     )
   }
   // make table board
