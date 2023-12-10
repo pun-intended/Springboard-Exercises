@@ -44,6 +44,7 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
     return initialBoard;
   }
 
+  // NOTE - This was the best solution I could think of to hard code the string coords into the cells...
   function createCells(board){
     let cellArray = []
       for(let row in board){
@@ -92,8 +93,6 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   }
 
   // if the game is won, just show a winning msg & render nothing else
-
-  // TODO
   let cells = createCells(board)
   if(hasWon()){
     return(
