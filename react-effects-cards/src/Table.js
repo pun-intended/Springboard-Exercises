@@ -8,6 +8,8 @@ function Table() {
     const [cards, setCards] = useState([])
     const [deck, setDeck] = useState(null)
 
+    const shuffleBtn = useRef()
+
     useEffect(() => {
         async function getDeck() {
             const newDeck = await axios.get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
@@ -16,9 +18,12 @@ function Table() {
         getDeck()
     }, [])
 
-    function shuffle(){
-        // shuffle deck
-        // disable shuffle button (useRef?)
+    async function shuffle(){
+        shuffleBtn.disabled = true
+        const shuffledDeck = await axios.get(`https://deckofcardsapi.com/api/deck/${deck.deck_id}/shuffle/`)
+        setCards([])
+        setDeck(shuffledDeck.data)
+        shuffleBtn.disabled = false
 
     }
     async function drawCard(){
@@ -41,10 +46,9 @@ function Table() {
     return(
         <div className="Table">
             <button className="Table-draw-btn" onClick={drawCard}>Draw a card</button>
-            {/* button to draw card */}
             {cards? 
             cards[0] : "Please draw a card"}
-            {/* Shuffle Button */}
+            <button className="Table-shuffle-btn" onClick={shuffle} ref={shuffleBtn}>Shuffle</button>
         </div>
     )
 }
