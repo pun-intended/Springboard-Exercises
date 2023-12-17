@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[` 1`] = `
+<DocumentFragment>
+  <div>
+    <form>
+      <label
+        for="task"
+      >
+        Task
+      </label>
+      <input
+        name="task"
+        value=""
+      />
+      <button>
+        Add
+      </button>
+    </form>
+  </div>
+</DocumentFragment>
+`;
