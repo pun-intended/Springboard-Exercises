@@ -1,16 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Nav = ({dogList}) => {
-    const dogList = dogList
+const Nav = ({list}) => {
+    const dogList = list
 
     return(
         <ul>
             <li><Link to={`/dogs`}>Home</Link></li>
             {dogList.map((dog) => {
-                <li><Link to={`/dogs/${dog.name}`}>{dog.name}</Link></li>
+                return <li><Link to={`/dogs/${dog.name}`}>{dog.name}</Link></li>
             })}
             
         </ul>
     )
 }
+
+export default Nav

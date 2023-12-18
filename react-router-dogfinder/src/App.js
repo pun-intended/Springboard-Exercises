@@ -1,22 +1,22 @@
 import './App.css';
+import Nav from "./Nav"
 import RouteList from './RouteList';
 import { BrowserRouter} from 'react-router-dom';
-function App({props}) {
+function App({dogs}) {
   return(
     <BrowserRouter>
-      <Nav list={props.dogs}/>
-      <RouteList dogList={props.dogs}/>
+      <Nav list={dogs}/>
+      <RouteList dogList={dogs}/>
     </BrowserRouter>
   )
 }
 
-export default App;
 App.defaultProps = {
   dogs: [
     {
       name: "Whiskey",
       age: 5,
-      src: whiskey,
+      src: 'whiskey',
       facts: [
         "Whiskey loves eating popcorn.",
         "Whiskey is a terrible guard dog.",
@@ -26,7 +26,7 @@ App.defaultProps = {
     {
       name: "Duke",
       age: 3,
-      src: duke,
+      src: 'duke',
       facts: [
         "Duke believes that ball is life.",
         "Duke likes snow.",
@@ -36,7 +36,7 @@ App.defaultProps = {
     {
       name: "Perry",
       age: 4,
-      src: perry,
+      src: 'perry',
       facts: [
         "Perry loves all humans.",
         "Perry demolishes all snacks.",
@@ -46,7 +46,7 @@ App.defaultProps = {
     {
       name: "Tubby",
       age: 4,
-      src: tubby,
+      src: 'tubby',
       facts: [
         "Tubby is really stupid.",
         "Tubby does not like walks.",
@@ -55,3 +55,5 @@ App.defaultProps = {
     }
   ]
 }
+
+export default App;
