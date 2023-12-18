@@ -6,7 +6,7 @@ const VendingMachine = () => {
     return (
     <div>
         <BrowserRouter>
-        <AllRoutes />
+            <AllRoutes />
         </BrowserRouter>
     </div>
     )
