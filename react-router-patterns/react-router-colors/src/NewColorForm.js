@@ -15,7 +15,6 @@ const NewColorForm = ({addColor}) => {
         evt.preventDefault();
         addColor(formData)
         setFormData(INITIAL_STATE)
-        console.log(formData)
         navigate('/colors');
 
    } 
