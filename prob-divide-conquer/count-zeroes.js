@@ -1,10 +1,22 @@
-function countZeroes() {
-  //binary search to move pointer to last 1
-  // - get middle index, 
-  //    - if 1 leftIdx = middle+1,
-  //    - if 0 rightIdx = mid-1
-  //    - if at the same space, and =1, 
-  // return diff between index of last 1, len of array
+function countZeroes(array) {
+  let first = findFirst(array)
+  if (first === -1){
+    return 0
+  }
+  return array.length - first
+}
+// finds the first instance of 0 through recursion
+function findFirst(array, low=0, high=array.length - 1){
+    if(high >= low){
+        let mid = low + Math.floor((high - low)/2)
+        if((mid === 0 || array[mid - 1] === 1) && array[mid] === 0){
+            return mid
+        } else if (array[mid] === 1) {
+            return findFirst(array, mid + 1, high)
+        }
+        return findFirst(array, low, mid - 1)
+    }
+    return -1
 }
 
 module.exports = countZeroes
